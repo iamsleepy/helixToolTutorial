@@ -58,20 +58,9 @@
 
 #define PI 3.1415926
 
-#define kPitchFlag			"-p"
-#define kPitchFlagLong		"-pitch"
-#define kRadiusFlag			"-r"
-#define kRadiusFlagLong		"-radius"
-#define kNumberCVsFlag		"-ncv"
-#define kNumberCVsFlagLong	"-numCVs"
-#define kUpsideDownFlag		"-ud"
-#define kUpsideDownFlagLong	"-upsideDown"
-
 /////////////////////////////////////////////////////////////
 // The users tool command
 /////////////////////////////////////////////////////////////
-
-#define		NUMBER_OF_CVS		20
 
 class helixTool : public MPxToolCommand
 {
