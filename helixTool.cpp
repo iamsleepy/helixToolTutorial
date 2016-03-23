@@ -372,18 +372,13 @@ helixContext::helixContext()
 {
 	numCV = 20;
 	upDown = false;
-	setTitleString("Helix Tool");
 
-	setCursor( MCursor::defaultCursor );
-
-	// Tell the context which XPM to use so the tool can properly
-	// be a candidate for the 6th position on the mini-bar.
-	setImage("helixTool.xpm", MPxContext::kImage1 );
+	// TODO: Step 1. Set title, cursor and icon here.
 }
 
 void helixContext::toolOnSetup(MEvent &)
 {
-	setHelpString(helpString);
+	// TODO: Step 1. Set helpstring here
 }
 
 MStatus helixContext::doPress(MEvent &event)
@@ -464,10 +459,8 @@ MStatus helixContext::doEnterRegion(MEvent &)
 /*Viewport 2 implementation */
 MStatus helixContext::doPress(MEvent & event, MHWRender::MUIDrawManager& drawMgr, const MHWRender::MFrameContext& context)
 {
-	event.getPosition(startPos_x, startPos_y);
-	view = M3dView::active3dView();
-	firstDraw = true;
-	return MS::kSuccess;
+	// TODO: Step 2. Implement doPress event for Viewport 2.
+
 }
 
 // Based on gluCylinder 
@@ -497,7 +490,8 @@ void helixContext::drawCylinder(MHWRender::MUIDrawManager& drawMgr , double base
 
 	sinCache[slices] = sinCache[0];
 	cosCache[slices] = cosCache[0];
-
+	
+	//Begin drawing
 	drawMgr.beginDrawable();
 	for (j = 0; j <= stacks; j += stacks) {
 		zLow = j * height / stacks;
@@ -506,8 +500,7 @@ void helixContext::drawCylinder(MHWRender::MUIDrawManager& drawMgr , double base
 		for (i = 0; i <= slices; i++) {
 			pointArray.append(radiusLow * sinCache[i], zLow * upsideDown, radiusLow * cosCache[i]);
 		}
-
-		drawMgr.lineStrip(pointArray, false);
+		// TODO: Step 3. User MUIDrawManager to draw linestrip with pointArray above
 	}
 	for (i = 0; i < slices; i++) {
 		sintemp = sinCache[i];
@@ -518,8 +511,9 @@ void helixContext::drawCylinder(MHWRender::MUIDrawManager& drawMgr , double base
 			radiusLow = baseRadius - deltaRadius * ((float)j / stacks);
 			pointArray.append(radiusLow * sintemp, zLow * upsideDown, radiusLow * costemp);
 		}
-		drawMgr.lineStrip(pointArray, false);
+		// TODO: Step 3. User MUIDrawManager to draw linestrip with pointArray above
 	}
+	//Finish drawing
 	drawMgr.endDrawable();
 }
 
@@ -538,44 +532,18 @@ void helixContext::drawGuide(MEvent & event, MHWRender::MUIDrawManager& drawMgr,
 
 MStatus helixContext::doDrag(MEvent & event, MHWRender::MUIDrawManager& drawMgr, const MHWRender::MFrameContext& context)
 {
-
-
-	if (!firstDraw) {
-		//	Clear the guide from the old position.
-		drawGuide(event, drawMgr, context);
-	}
-	else {
-		firstDraw = false;
-	}
-
-	event.getPosition(endPos_x, endPos_y);
-
-	//	Draw the guide at the new position.
-	drawGuide(event, drawMgr, context);
-	
-	return MS::kSuccess;
+	// TODO: Step 2. Implement doDrag event for Viewport 2.
 }
 
 MStatus helixContext::doRelease(MEvent & event, MHWRender::MUIDrawManager& drawMgr, const MHWRender::MFrameContext& context)
 {
-	//	Clear the guide from its last position.
-	if (!firstDraw) {
-		drawGuide(event, drawMgr, context);
-	}
+	// TODO: Step 2. Implement doRelease event for Viewport 2.
 
-	helixTool * cmd = (helixTool*)newToolCommand();
-	cmd->setPitch(height / numCV);
-	cmd->setRadius(radius);
-	cmd->setNumCVs(numCV);
-	cmd->setUpsideDown(upDown);
-	cmd->redoIt();
-	cmd->finalize();
-	return MS::kSuccess;
 }
 
 MStatus helixContext::doEnterRegion(MEvent & event, MHWRender::MUIDrawManager& drawMgr, const MHWRender::MFrameContext& context)
 {
-	return setHelpString( helpString );
+	// TODO: Step 2. Implement doEnterRegion event for Viewport 2.
 }
 
 void helixContext::getClassName( MString & name ) const
@@ -639,8 +607,7 @@ MPxContext* helixContextCmd::makeObj()
 	//    be used to create a context.
 	//
 {
-	fHelixContext = new helixContext();
-	return fHelixContext;
+	// TODO: Step 4. Create an instance of helixContext and assign it to fHelixContext for later usage.
 }
 
 void* helixContextCmd::creator()
@@ -655,62 +622,17 @@ void* helixContextCmd::creator()
 
 MStatus helixContextCmd::doEditFlags()
 {
-	MStatus status = MS::kSuccess;
-
-	MArgParser argData = parser();
-
-	if (argData.isFlagSet(kNumberCVsFlag)) {
-		unsigned numCVs;
-		status = argData.getFlagArgument(kNumberCVsFlag, 0, numCVs);
-		if (!status) {
-			status.perror("numCVs flag parsing failed.");
-			return status;
-		}
-		fHelixContext->setNumCVs(numCVs);
-	}
-
-	if (argData.isFlagSet(kUpsideDownFlag)) {
-		bool upsideDown;
-		status = argData.getFlagArgument(kUpsideDownFlag, 0, upsideDown);
-		if (!status) {
-			status.perror("upsideDown flag parsing failed.");
-			return status;
-		}
-		fHelixContext->setUpsideDown(upsideDown);
-	}
-
-	return MS::kSuccess;
+	// TODO: Step 6. Create update for number of CVs parameter and UpsideDown parameter
 }
 
 MStatus helixContextCmd::doQueryFlags()
 {
-	MArgParser argData = parser();
-
-	if (argData.isFlagSet(kNumberCVsFlag)) {
-		setResult((int) fHelixContext->numCVs());
-	}
-	if (argData.isFlagSet(kUpsideDownFlag)) {
-		setResult(fHelixContext->upsideDown());
-	}
-
-	return MS::kSuccess;
+	// TODO: Step 6. Create query for number of CVs parameter and UpsideDown parameter, use setResult to return result.
 }
 
 MStatus helixContextCmd::appendSyntax()
 {
-	MSyntax mySyntax = syntax();
-
-	if (MS::kSuccess != mySyntax.addFlag(kNumberCVsFlag, kNumberCVsFlagLong,
-		MSyntax::kUnsigned)) {
-			return MS::kFailure;
-	}
-	if (MS::kSuccess != 
-		mySyntax.addFlag(kUpsideDownFlag, kUpsideDownFlagLong,
-		MSyntax::kBoolean)) {
-			return MS::kFailure;
-	}
-
-	return MS::kSuccess;
+	// TODO: Step 5. Add numCV flag and upsideDown flag in syntax.
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -727,11 +649,7 @@ MStatus initializePlugin( MObject obj )
 	// Register the context creation command and the tool command 
 	// that the helixContext will use.
 	// 
-	status = plugin.registerContextCommand("helixToolContext",
-		helixContextCmd::creator,
-		"helixToolCmd",
-		helixTool::creator,
-		helixTool::newSyntax);
+	// TODO: Step 7. Register the command with registerContextCommand
 	if (!status) {
 		status.perror("registerContextCommand");
 		return status;
@@ -747,8 +665,7 @@ MStatus uninitializePlugin( MObject obj)
 
 	// Deregister the tool command and the context creation command
 	//
-	status = plugin.deregisterContextCommand( "helixToolContext",
-		"helixToolCmd" );
+	// TODO: Step 7. Unregister the command with registerContextCommand
 	if (!status) {
 		status.perror("deregisterContextCommand");
 		return status;
