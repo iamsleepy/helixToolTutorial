@@ -58,6 +58,7 @@
 
 #define PI 3.1415926
 
+// TODO: Instructions 2. These are the flags we need to implement.
 #define kPitchFlag			"-p"
 #define kPitchFlagLong		"-pitch"
 #define kRadiusFlag			"-r"
@@ -119,14 +120,7 @@ helixTool::helixTool()
 
 MSyntax helixTool::newSyntax()
 {
-	MSyntax syntax;
-
-	syntax.addFlag(kPitchFlag, kPitchFlagLong, MSyntax::kDouble);
-	syntax.addFlag(kRadiusFlag, kRadiusFlagLong, MSyntax::kDouble);
-	syntax.addFlag(kNumberCVsFlag, kNumberCVsFlagLong, MSyntax::kUnsigned);
-	syntax.addFlag(kUpsideDownFlag, kUpsideDownFlagLong, MSyntax::kBoolean);
-
-	return syntax;
+	//TODO: Step 1. Create syntax here with MSyntax, make sure the parameters are all added
 }
 
 MStatus helixTool::doIt(const MArgList &args)
@@ -138,6 +132,7 @@ MStatus helixTool::doIt(const MArgList &args)
 {
 	MStatus status;
 
+	// TODO: Instructions 1. Call Argument parser before drawing
 	status = parseArgs(args);
 
 	if (MS::kSuccess != status)
@@ -148,50 +143,7 @@ MStatus helixTool::doIt(const MArgList &args)
 
 MStatus helixTool::parseArgs(const MArgList &args)
 {
-	MStatus status;
-	MArgDatabase argData(syntax(), args);
-
-	if (argData.isFlagSet(kPitchFlag)) {
-		double tmp;
-		status = argData.getFlagArgument(kPitchFlag, 0, tmp);
-		if (!status) {
-			status.perror("pitch flag parsing failed");
-			return status;
-		}
-		pitch = tmp;
-	}
-
-	if (argData.isFlagSet(kRadiusFlag)) {
-		double tmp;
-		status = argData.getFlagArgument(kRadiusFlag, 0, tmp);
-		if (!status) {
-			status.perror("radius flag parsing failed");
-			return status;
-		}
-		radius = tmp;
-	}
-
-	if (argData.isFlagSet(kNumberCVsFlag)) {
-		unsigned tmp;
-		status = argData.getFlagArgument(kNumberCVsFlag, 0, tmp);
-		if (!status) {
-			status.perror("numCVs flag parsing failed");
-			return status;
-		}
-		numCV = tmp;
-	}
-
-	if (argData.isFlagSet(kUpsideDownFlag)) {
-		bool tmp;
-		status = argData.getFlagArgument(kUpsideDownFlag, 0, tmp);
-		if (!status) {
-			status.perror("upside down flag parsing failed");
-			return status;
-		}
-		upDown = tmp;
-	}
-
-	return MS::kSuccess;
+	//TODO: Step 2. Add parameter parser here. Use MArgDatabase::isFlagSet and MArgDatabase::getFlagArgument to update all parameters before drawing.
 }	
 
 
@@ -272,17 +224,7 @@ MStatus helixTool::finalize()
 	//     for journaling.
 	//
 {
-	MArgList command;
-	command.addArg(commandString());
-	command.addArg(MString(kRadiusFlag));
-	command.addArg(radius);
-	command.addArg(MString(kPitchFlag));
-	command.addArg(pitch);
-	command.addArg(MString(kNumberCVsFlag));
-	command.addArg((int) numCV);
-	command.addArg(MString(kUpsideDownFlag));
-	command.addArg(upDown);
-	return MPxToolCommand::doFinalize( command );
+	// TODO: Step 4. Finalize the command with MArgList and MPxToolCommand
 }
 
 void helixTool::setRadius(double newRadius)
@@ -318,9 +260,10 @@ MStatus initializePlugin( MObject obj )
 	// Register the context creation command and the tool command 
 	// that the helixContext will use.
 	// 
+
+	//TODO: Step 3. Register syntax function here
 	status = plugin.registerCommand("helixToolCmd",
-		helixTool::creator,
-		helixTool::newSyntax);
+		helixTool::creator);
 	if (!status) {
 		status.perror("registerContextCommand");
 		return status;
@@ -344,3 +287,6 @@ MStatus uninitializePlugin( MObject obj)
 
 	return status;
 }
+
+//TODO: I-------------------------------------Instructions------------------------------------------I
+//TODO: S----------------------------------------Steps---------------------------------------------S
