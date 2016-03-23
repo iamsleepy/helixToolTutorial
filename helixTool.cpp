@@ -113,16 +113,7 @@ MStatus helixTool::doIt(const MArgList &args)
 	//     MEL command.
 	//
 {
-	return redoIt();
-}
-
-MStatus helixTool::redoIt()
-	//
-	// Description
-	//     This method creates the helix curve from the
-	//     pitch and radius values
-	//
-{
+	// TODO: Step 2. Move the command into redoIt and call redoIt here.
 	MStatus stat;
 
 	const unsigned  deg     = 3;            // Curve Degree
@@ -165,12 +156,24 @@ MStatus helixTool::redoIt()
 	return stat;
 }
 
+MStatus helixTool::redoIt()
+	//
+	// Description
+	//     This method creates the helix curve from the
+	//     pitch and radius values
+	//
+{
+	
+}
+
 MStatus helixTool::undoIt()
 	//
 	// Description
 	//     Removes the helix curve from the model.
 	//
 {
+    //TODO: Step 3. Delete the curve we've created earlier with MGlobal::delete
+	//TODO: Step 3. hint: we can get the transform from the path we stored earlier.
 	MStatus stat; 
 	MObject transform = path.transform();
 	stat = MGlobal::deleteNode( transform );
@@ -183,7 +186,7 @@ bool helixTool::isUndoable() const
 	//     Set this command to be undoable.
 	//
 {
-	return true;	
+	//TODO: Step 1. Mark it is undoable
 }
 
 void helixTool::setRadius(double newRadius)
