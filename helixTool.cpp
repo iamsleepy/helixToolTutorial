@@ -81,12 +81,10 @@ public:
 	static void*	creator();
 
 	MStatus			doIt(const MArgList& args);
-	MStatus			parseArgs(const MArgList& args);
 	MStatus			redoIt();
 	MStatus			undoIt();
 	bool			isUndoable() const;
-	MStatus			finalize();
-	static MSyntax	newSyntax();
+
 
 	void			setRadius(double newRadius);
 	void			setPitch(double newPitch);
@@ -112,21 +110,11 @@ helixTool::~helixTool() {}
 
 helixTool::helixTool()
 {
-	numCV = 20;
-	upDown = false;
+	setPitch(0.25);
+	setUpsideDown(false);
+	setRadius(2.0);
+	setNumCVs(20);
 	setCommandString("helixToolCmd");
-}
-
-MSyntax helixTool::newSyntax()
-{
-	MSyntax syntax;
-
-	syntax.addFlag(kPitchFlag, kPitchFlagLong, MSyntax::kDouble);
-	syntax.addFlag(kRadiusFlag, kRadiusFlagLong, MSyntax::kDouble);
-	syntax.addFlag(kNumberCVsFlag, kNumberCVsFlagLong, MSyntax::kUnsigned);
-	syntax.addFlag(kUpsideDownFlag, kUpsideDownFlagLong, MSyntax::kBoolean);
-
-	return syntax;
 }
 
 MStatus helixTool::doIt(const MArgList &args)
@@ -136,64 +124,8 @@ MStatus helixTool::doIt(const MArgList &args)
 	//     MEL command.
 	//
 {
-	MStatus status;
-
-	status = parseArgs(args);
-
-	if (MS::kSuccess != status)
-		return status;
-
 	return redoIt();
 }
-
-MStatus helixTool::parseArgs(const MArgList &args)
-{
-	MStatus status;
-	MArgDatabase argData(syntax(), args);
-
-	if (argData.isFlagSet(kPitchFlag)) {
-		double tmp;
-		status = argData.getFlagArgument(kPitchFlag, 0, tmp);
-		if (!status) {
-			status.perror("pitch flag parsing failed");
-			return status;
-		}
-		pitch = tmp;
-	}
-
-	if (argData.isFlagSet(kRadiusFlag)) {
-		double tmp;
-		status = argData.getFlagArgument(kRadiusFlag, 0, tmp);
-		if (!status) {
-			status.perror("radius flag parsing failed");
-			return status;
-		}
-		radius = tmp;
-	}
-
-	if (argData.isFlagSet(kNumberCVsFlag)) {
-		unsigned tmp;
-		status = argData.getFlagArgument(kNumberCVsFlag, 0, tmp);
-		if (!status) {
-			status.perror("numCVs flag parsing failed");
-			return status;
-		}
-		numCV = tmp;
-	}
-
-	if (argData.isFlagSet(kUpsideDownFlag)) {
-		bool tmp;
-		status = argData.getFlagArgument(kUpsideDownFlag, 0, tmp);
-		if (!status) {
-			status.perror("upside down flag parsing failed");
-			return status;
-		}
-		upDown = tmp;
-	}
-
-	return MS::kSuccess;
-}	
-
 
 MStatus helixTool::redoIt()
 	//
@@ -265,26 +197,6 @@ bool helixTool::isUndoable() const
 	return true;	
 }
 
-MStatus helixTool::finalize()
-	//
-	// Description
-	//     Command is finished, construct a string for the command
-	//     for journaling.
-	//
-{
-	MArgList command;
-	command.addArg(commandString());
-	command.addArg(MString(kRadiusFlag));
-	command.addArg(radius);
-	command.addArg(MString(kPitchFlag));
-	command.addArg(pitch);
-	command.addArg(MString(kNumberCVsFlag));
-	command.addArg((int) numCV);
-	command.addArg(MString(kUpsideDownFlag));
-	command.addArg(upDown);
-	return MPxToolCommand::doFinalize( command );
-}
-
 void helixTool::setRadius(double newRadius)
 {
 	radius = newRadius;
@@ -319,8 +231,7 @@ MStatus initializePlugin( MObject obj )
 	// that the helixContext will use.
 	// 
 	status = plugin.registerCommand("helixToolCmd",
-		helixTool::creator,
-		helixTool::newSyntax);
+		helixTool::creator);
 	if (!status) {
 		status.perror("registerContextCommand");
 		return status;
