@@ -1,7 +1,7 @@
 # helixToolTutorial
 HelixToolTutorial, please visit http://help.autodesk.com/view/MAYAUL/2016/ENU/ for Maya documentation
 
-Master is the final result.
+Master is the final result. Please make sure you are using DirectX for your viewport.
 
 You can choose any head with exercise to work on and compare it with answer heads of them. The steps are in your visual studio task list.
 
