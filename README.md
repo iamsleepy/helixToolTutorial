@@ -7,4 +7,4 @@ You can choose any head with exercise to work on and compare it with answer head
 
 This is solution is assumed that your Maya is installed in the default folder (C:\Program files\Autodesk\Maya 2016).
 
-If you have installed in a different folder, please change the additional include and lib directory setting of the project.
+If you have installed in a different folder, please change the additional include and lib directory setting of the project. (%Maya Installation%\include , %Maya Installation%\lib).
