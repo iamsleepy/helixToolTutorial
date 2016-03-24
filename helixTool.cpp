@@ -113,7 +113,7 @@ MStatus helixTool::doIt(const MArgList &args)
 	//     MEL command.
 	//
 {
-	// TODO: Step 2. Move the command into redoIt and call redoIt here.
+	// TODO: Step 2. Move the command into redoIt and call redoIt with argList here.
 	MStatus stat;
 
 	const unsigned  deg     = 3;            // Curve Degree
@@ -186,7 +186,7 @@ bool helixTool::isUndoable() const
 	//     Set this command to be undoable.
 	//
 {
-	//TODO: Step 1. Mark it is undoable
+	//TODO: Step 1. Mark it is undoable by return true
 }
 
 void helixTool::setRadius(double newRadius)
