@@ -120,7 +120,7 @@ helixTool::helixTool()
 
 MSyntax helixTool::newSyntax()
 {
-	//TODO: Step 1. Create syntax here with MSyntax, make sure the parameters are all added
+	//TODO: Step 1. Create syntax here with MSyntax, make sure the parameters are all added with MSyntax::addFlag
 }
 
 MStatus helixTool::doIt(const MArgList &args)
@@ -224,7 +224,7 @@ MStatus helixTool::finalize()
 	//     for journaling.
 	//
 {
-	// TODO: Step 4. Finalize the command with MArgList and MPxToolCommand
+	// TODO: Step 4. Finalize the command with MArgList, MArgList::AddArg (command, flag, parameter in order) and MPxToolCommand::doFinalize
 }
 
 void helixTool::setRadius(double newRadius)
@@ -263,7 +263,7 @@ MStatus initializePlugin( MObject obj )
 
 	//TODO: Step 3. Register syntax function here
 	status = plugin.registerCommand("helixToolCmd",
-		helixTool::creator);
+		helixTool::creator, // Syntax function here);
 	if (!status) {
 		status.perror("registerContextCommand");
 		return status;
