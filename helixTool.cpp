@@ -622,7 +622,7 @@ void* helixContextCmd::creator()
 
 MStatus helixContextCmd::doEditFlags()
 {
-	// TODO: Step 6. Create update for number of CVs parameter and UpsideDown parameter
+	// TODO: Step 6. Create update for number of CVs parameter and UpsideDown parameter, don't forget to assign it to your fHelixContext instance.
 }
 
 MStatus helixContextCmd::doQueryFlags()
