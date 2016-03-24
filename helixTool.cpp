@@ -174,10 +174,6 @@ MStatus helixTool::undoIt()
 {
     //TODO: Step 3. Delete the curve we've created earlier with MGlobal::delete
 	//TODO: Step 3. hint: we can get the transform from the path we stored earlier.
-	MStatus stat; 
-	MObject transform = path.transform();
-	stat = MGlobal::deleteNode( transform );
-	return stat;
 }
 
 bool helixTool::isUndoable() const
