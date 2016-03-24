@@ -665,7 +665,7 @@ MStatus uninitializePlugin( MObject obj)
 
 	// Deregister the tool command and the context creation command
 	//
-	// TODO: Step 7. Unregister the command with registerContextCommand
+	// TODO: Step 7. Unregister the command with deregisterContextCommand
 	if (!status) {
 		status.perror("deregisterContextCommand");
 		return status;
